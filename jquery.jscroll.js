@@ -1,5 +1,5 @@
 /**
- * jScroll jQuery Plugin v1.0
+ * jScroll jQuery Plugin v1.1
  * http://jscroll.com/
  * 
  * Copyright 2011, Philip Klauzinski
@@ -10,7 +10,6 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  * 
  * @author Philip Klauzinski
- * @version 1.0
  * @requires jQuery v1.4.3+
  */
 (function($) {
@@ -31,31 +30,27 @@
     var jScroll = function($e, options) {
 
         // Private vars
-        var _this,
-            _data = $e.data('jscroll'),
+        var _data = $e.data('jscroll'),
             _userOptions = (typeof options === 'function') ? { callback: options } : options; 
             _options = $.extend({}, $.jscroll.defaults, _userOptions, _data || {}),
             _$next = $e.find(_options.nextSelector).first();
         
         // Initialization
-        (function() {
-            _this = this;
-            $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _$next.attr('href')}));
-            $e.contents().wrapAll('<div class="jscroll-inner" />');
-            _preloadImage();
-            if (_options.autoTrigger) {
+        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _$next.attr('href')}));
+        $e.contents().wrapAll('<div class="jscroll-inner" />');
+        _preloadImage();
+        if (_options.autoTrigger) {
+            _nextWrap(_$next);
+            $e.bind('scroll.jscroll', function() {
+                return _observe();
+            });
+        } else {
+            _$next.bind('click.jscroll', function() {
                 _nextWrap(_$next);
-                $e.bind('scroll.jscroll', function() {
-                    return _observe();
-                });
-            } else {
-                _$next.bind('click.jscroll', function() {
-                    _nextWrap(_$next);
-                    _load();
-                    return false;
-                });
-            }
-        })();
+                _load();
+                return false;
+            });
+        }
 
         // Private methods
         
@@ -115,7 +110,7 @@
             $inner.append('<div class="jscroll-added" />')
                 .children('.jscroll-added').last()
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
-            return _checkNextHref(data) && $e.animate({scrollTop: $inner.outerHeight()}, 500, function() {
+            return _checkNextHref(data) && $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
