@@ -1,5 +1,5 @@
 /**
- * jScroll jQuery Plugin v1.1
+ * jScroll jQuery Plugin v1.2
  * http://jscroll.com/
  * 
  * Copyright 2011, Philip Klauzinski
@@ -31,7 +31,7 @@
 
         // Private vars
         var _data = $e.data('jscroll'),
-            _userOptions = (typeof options === 'function') ? { callback: options } : options; 
+            _userOptions = (typeof options === 'function') ? { callback: options } : options,
             _options = $.extend({}, $.jscroll.defaults, _userOptions, _data || {}),
             _$next = $e.find(_options.nextSelector).first();
         
