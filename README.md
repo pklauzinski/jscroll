@@ -5,7 +5,7 @@ Official site at [jscroll.com](http://jscroll.com/).
 * Copyright (C) 2011-2013, [Philip Klauzinski](http://klauzinski.com/)
 * Current Version: 2.0
 * Dual licensed under the MIT and GPL Version 2 licenses.
-* [http://jscroll.com/#license](http://jscroll.com/#license)
+* http://jscroll.com/#license
 * http://www.opensource.org/licenses/mit-license.php
 * http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,16 +15,20 @@ Requires jQuery v1.4.3+
 
 The `jscroll` method is called on the selector for which you want your scrollable content contained within. For example:
 
-    $('.jscroll').jscroll();
+```javascript
+$('.jscroll').jscroll();
+```
 
 The `jscroll` method takes an optional object literal as a parameter for overriding the default options. An example of how this can be done is shown below.
 
-    $('.jscroll').jscroll({
-        loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
-        padding: 20,
-        nextSelector: 'a.jscroll-next:last',
-        contentSelector: 'li'
-    });
+```javascript
+$('.jscroll').jscroll({
+    loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
+    padding: 20,
+    nextSelector: 'a.jscroll-next:last',
+    contentSelector: 'li'
+});
+```
 
 ## Options
 

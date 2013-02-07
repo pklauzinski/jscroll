@@ -2,7 +2,7 @@
  * jScroll jQuery Plugin v2.0
  * http://jscroll.com/
  *
- * Copyright 2011, Philip Klauzinski
+ * Copyright 2011-2013, Philip Klauzinski
  * http://klauzinski.com/
  * Dual licensed under the MIT and GPL Version 2 licenses.
  * http://jscroll.com/#license
