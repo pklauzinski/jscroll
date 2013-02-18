@@ -36,9 +36,21 @@
             _isWindow = ($e.css('overflow-y') === 'visible'),
             _$next = $e.find(_options.nextSelector).first(),
             _$scroll = _isWindow ? $(window) : $e;
+        // Added handling for contentSelector
+        if (_$next.attr('href')) {
+    	    if (!_options.contentSelector) {
+			_$correctnext = _$next.attr('href');
+		    }
+		    else {
+			_$correctnext = _$next.attr('href') + ' ' + _options.contentSelector;
+		    }
+		}
+		else {
+			_$correctnext = null;
+		}
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _$next.attr('href')}));
+        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _$correctnext}));
         $e.contents().wrapAll('<div class="jscroll-inner" />');
         _preloadImage();
         if (_options.autoTrigger) {
@@ -121,7 +133,17 @@
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
-                    data.nextHref = $next.attr('href');
+                    if ($next.attr('href')) {
+    				    if (!_options.contentSelector) {
+                            data.nextHref = $next.attr('href');
+					    }
+					    else {
+                            data.nextHref = $next.attr('href') + ' ' + _options.contentSelector;
+					    }
+					}
+					else {
+					    data.nextHref = null;
+					}
                     $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                     if (_options.autoTrigger) {
                         _nextWrap($next);
