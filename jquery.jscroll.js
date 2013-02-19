@@ -22,7 +22,8 @@
             loadingHtml: '<small>Loading...</small>',
             padding: 0,
             nextSelector: 'a:last',
-            contentSelector: ''
+            contentSelector: '',
+    		pagingSelector: ''
         }
     };
 
@@ -67,10 +68,15 @@
 
         // Find the next link's parent, or add one, and hide it
         function _nextWrap($next) {
+		if (_options.pagingSelector) {
+			var $parent = $next.closest(_options.pagingSelector).hide();
+		}
+		else {
             var $parent = $next.parent().not('.jscroll-inner').addClass('jscroll-next-parent').hide();
             if (!$parent.length) {
                 $next.wrap('<div class="jscroll-next-parent" />').parent().hide();
             }
+			}
         }
 
         // Remove the jscroll behavior and data from an element
@@ -88,10 +94,9 @@
                 iContainerTop = parseInt($e.css('paddingTop')) + parseInt($e.css('borderTopWidth')),
                 iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
                 innerTop = $inner.length ? $inner.offset().top : 0,
-                iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop),
-                nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
-
+                iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
             if (_checkNextHref(data) && !data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
+				data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
             }
