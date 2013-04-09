@@ -1,5 +1,5 @@
 /*!
- * jScroll jQuery Plugin v2.0
+ * jScroll jQuery Plugin v2.1
  * http://jscroll.com/
  *
  * Copyright 2011-2013, Philip Klauzinski
@@ -36,23 +36,14 @@
             _options = $.extend({}, $.jscroll.defaults, _userOptions, _data || {}),
             _isWindow = ($e.css('overflow-y') === 'visible'),
             _$next = $e.find(_options.nextSelector).first(),
-            _$scroll = _isWindow ? $(window) : $e;
-        // Added handling for contentSelector
-        if (_$next.attr('href')) {
-    	    if (!_options.contentSelector) {
-			_$correctnext = _$next.attr('href');
-		    }
-		    else {
-			_$correctnext = _$next.attr('href') + ' ' + _options.contentSelector;
-		    }
-		}
-		else {
-			_$correctnext = null;
-		}
+            _$window = $(window),
+            _$document = $(document),
+            _$scroll = _isWindow ? $(window) : $e,
+            _nextHref = _options.contentSelector ? _$next.attr('href') + ' ' + _options.contentSelector : _$next.attr('href');
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _$correctnext}));
-        $e.contents().wrapAll('<div class="jscroll-inner" />');
+        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+        _wrapInnerContent();
         _preloadImage();
         if (_options.autoTrigger) {
             _nextWrap(_$next);
@@ -78,16 +69,22 @@
             }
         }
 
+        // Wrapper inner content, if it isn't already
+        function _wrapInnerContent() {
+            if (!$e.find('.jscroll-inner').length) {
+                $e.contents().wrapAll('<div class="jscroll-inner" />');
+            }
+        }
+
         // Find the next link's parent, or add one, and hide it
         function _nextWrap($next) {
-		if (_options.pagingSelector) {
-			var $parent = $next.closest(_options.pagingSelector).hide();
-		}
-		else {
-            var $parent = $next.parent().not('.jscroll-inner').addClass('jscroll-next-parent').hide();
-            if (!$parent.length) {
-                $next.wrap('<div class="jscroll-next-parent" />').parent().hide();
-            }
+    		if (_options.pagingSelector) {
+    			var $parent = $next.closest(_options.pagingSelector).hide();
+    		} else {
+                var $parent = $next.parent().not('.jscroll-inner,.jscroll-added').addClass('jscroll-next-parent').hide();
+                if (!$parent.length) {
+                    $next.wrap('<div class="jscroll-next-parent" />').parent().hide();
+                }
 			}
         }
 
@@ -101,12 +98,16 @@
 
         // Observe the scroll event for when to trigger the next load
         function _observe() {
+            _wrapInnerContent();
             var $inner = $e.find('div.jscroll-inner').first(),
                 data = $e.data('jscroll'),
-                iContainerTop = parseInt($e.css('paddingTop')) + parseInt($e.css('borderTopWidth')),
+                borderTopWidth = parseInt($e.css('borderTopWidth')),
+                borderTopWidthInt = isNaN(borderTopWidth) ? 0 : borderTopWidth,
+                iContainerTop = parseInt($e.css('paddingTop')) + borderTopWidthInt,
                 iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
                 innerTop = $inner.length ? $inner.offset().top : 0,
                 iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
+
             if (_checkNextHref(data) && !data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
 				data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
@@ -138,17 +139,7 @@
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
-                    if ($next.attr('href')) {
-    				    if (!_options.contentSelector) {
-                            data.nextHref = $next.attr('href');
-					    }
-					    else {
-                            data.nextHref = $next.attr('href') + ' ' + _options.contentSelector;
-					    }
-					}
-					else {
-					    data.nextHref = null;
-					}
+                    data.nextHref = _options.contentSelector ? $next.attr('href') + ' ' + _options.contentSelector : $next.attr('href');
                     $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                     if (_options.autoTrigger) {
                         _nextWrap($next);
@@ -158,6 +149,9 @@
                             _observe();
                             return false;
                         });
+                    }
+                    if (_options.callback) {
+                        _options.callback.call(this);
                     }
                     _debug('dir', data);
                 });
