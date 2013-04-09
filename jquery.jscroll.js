@@ -1,5 +1,5 @@
 /*!
- * jScroll jQuery Plugin v2.1
+ * jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging - v2.1.1
  * http://jscroll.com/
  *
  * Copyright 2011-2013, Philip Klauzinski
