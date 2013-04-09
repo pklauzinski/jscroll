@@ -1,4 +1,4 @@
-/**
+/*!
  * jScroll jQuery Plugin v2.0
  * http://jscroll.com/
  *
