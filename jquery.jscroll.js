@@ -47,6 +47,7 @@
         _preloadImage();
         if (_options.autoTrigger) {
             _nextWrap(_$next);
+            while(_observe()) {} // reload at start if content height is smaller than screen height
             _$scroll.bind('scroll.jscroll', function() {
                 return _observe();
             });
@@ -113,6 +114,7 @@
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
             }
+            return false;
         }
 
         // Check if the href for the next set of content has been set
