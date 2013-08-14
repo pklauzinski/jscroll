@@ -1,17 +1,17 @@
 /*!
- * jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging - v2.1.1
- * http://jscroll.com/
- *
- * Copyright 2011-2013, Philip Klauzinski
- * http://klauzinski.com/
- * Dual licensed under the MIT and GPL Version 2 licenses.
- * http://jscroll.com/#license
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl-2.0.html
- *
- * @author Philip Klauzinski
- * @requires jQuery v1.4.3+
- */
+* jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging - v2.1.1
+* http://jscroll.com/
+*
+* Copyright 2011-2013, Philip Klauzinski
+* http://klauzinski.com/
+* Dual licensed under the MIT and GPL Version 2 licenses.
+* http://jscroll.com/#license
+* http://www.opensource.org/licenses/mit-license.php
+* http://www.gnu.org/licenses/gpl-2.0.html
+*
+* @author Philip Klauzinski
+* @requires jQuery v1.4.3+
+*/
 (function($) {
 
     // Define the jscroll namespace and default settings
@@ -23,7 +23,7 @@
             padding: 0,
             nextSelector: 'a:last',
             contentSelector: '',
-    		pagingSelector: ''
+            pagingSelector: ''
         }
     };
 
@@ -47,13 +47,22 @@
         _preloadImage();
         if (_options.autoTrigger) {
             _nextWrap(_$next);
-            _$scroll.bind('scroll.jscroll', function() {
-                return _observe();
-            });
+             if ($("body").height() <= $(window).height()) {
+                _observe();
+                _$scroll.bind('scroll.jscroll', function() {
+                    return _observe();
+                });
+            } else {
+                _$scroll.bind('scroll.jscroll', function() {
+                    return _observe();
+                });
+            }
         } else {
-            _$next.bind('click.jscroll', function() {
+            //_$next.bind('click.jscroll', function() {
+            $(document).on('click.jscroll', _options.nextSelector, function() {
                 _nextWrap(_$next);
                 _load();
+                $(this).remove();
                 return false;
             });
         }
@@ -78,14 +87,14 @@
 
         // Find the next link's parent, or add one, and hide it
         function _nextWrap($next) {
-    		if (_options.pagingSelector) {
-    			var $parent = $next.closest(_options.pagingSelector).hide();
-    		} else {
+     if (_options.pagingSelector) {
+     var $parent = $next.closest(_options.pagingSelector).hide();
+     } else {
                 var $parent = $next.parent().not('.jscroll-inner,.jscroll-added').addClass('jscroll-next-parent').hide();
                 if (!$parent.length) {
                     $next.wrap('<div class="jscroll-next-parent" />').parent().hide();
                 }
-			}
+}
         }
 
         // Remove the jscroll behavior and data from an element
@@ -109,7 +118,7 @@
                 iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
 
             if (_checkNextHref(data) && !data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
-				data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
+data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
             }
@@ -134,21 +143,17 @@
             $inner.append('<div class="jscroll-added" />')
                 .children('.jscroll-added').last()
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
-
             return _checkNextHref(data) && $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
+
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
+
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
                     data.nextHref = _options.contentSelector ? $next.attr('href') + ' ' + _options.contentSelector : $next.attr('href');
+
                     $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                     if (_options.autoTrigger) {
                         _nextWrap($next);
-                    } else {
-                        $next.bind('click.jscroll', function() {
-                            _nextWrap($next);
-                            _observe();
-                            return false;
-                        });
                     }
                     if (_options.callback) {
                         _options.callback.call(this);
@@ -195,3 +200,4 @@
         });
     };
 })(jQuery);
+
