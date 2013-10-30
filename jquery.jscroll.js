@@ -23,7 +23,8 @@
             padding: 0,
             nextSelector: 'a:last',
             contentSelector: '',
-    		pagingSelector: ''
+    		pagingSelector: '',
+			pieceContent: ''
         }
     };
 
@@ -109,7 +110,7 @@
                 iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
 
             if (_checkNextHref(data) && !data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
-				data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
+				data.nextHref = $.trim(data.nextHref);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
             }
@@ -136,7 +137,12 @@
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
 
             return _checkNextHref(data) && $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
-                $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
+				$inner.find('div.jscroll-added').last().load(data.nextHref ,  function(r, status, xhr) {
+					if(status == 'error') {
+					$('div.jscroll-loading').hide();
+					 $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
+					}
+					else {
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
                     data.nextHref = _options.contentSelector ? $next.attr('href') + ' ' + _options.contentSelector : $next.attr('href');
@@ -154,6 +160,7 @@
                         _options.callback.call(this);
                     }
                     _debug('dir', data);
+					}
                 });
             });
         }
