@@ -118,7 +118,7 @@
         // Check if the href for the next set of content has been set
         function _checkNextHref(data) {
             data = data || $e.data('jscroll');
-            if (!data.nextHref) {
+            if (!data || !data.nextHref) {
                 _debug('warn', 'jScroll: nextSelector not found - destroying');
                 $e.jscroll.destroy();
                 return false;
@@ -192,6 +192,9 @@
             // Instantiate jScroll on this element if it hasn't been already
             if (data && data.initialized) return;
             var jscroll = new jScroll($this, m);
+            $($this).on("remove", function () {
+                $.fn.jscroll.destroy();
+            })
         });
     };
 })(jQuery);
