@@ -3,7 +3,7 @@
 Official site at [jscroll.com](http://jscroll.com/).
 
 * Copyright (C) 2011-2013, [Philip Klauzinski](http://klauzinski.com/)
-* Current Version: 2.1.1
+* Current Version: 2.2.4
 * Dual licensed under the MIT and GPL Version 2 licenses.
 * http://jscroll.com/#license
 * http://www.opensource.org/licenses/mit-license.php
