@@ -25,7 +25,8 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
-            callback: false
+            callback: false,
+            refresh: false
         }
     };
 
@@ -44,10 +45,16 @@
             _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector);
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
-        _wrapInnerContent();
-        _preloadImage();
-        _setBindings();
+        if (_nextHref != 'undefined') {
+            $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref, refresh: _options.refresh}));
+            _wrapInnerContent();
+            _preloadImage();
+            _setBindings();
+        } else {
+            _debug('warn', 'jScroll: nextSelector not found - destroying');
+            _destroy();
+            return false;
+        }
 
         // Private methods
 
@@ -202,7 +209,7 @@
             var $this = $(this),
                 data = $this.data('jscroll');
             // Instantiate jScroll on this element if it hasn't been already
-            if (data && data.initialized) return;
+            if (data && data.initialized && data.refresh === false) return;
             var jscroll = new jScroll($this, m);
         });
     };
