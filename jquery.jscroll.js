@@ -43,7 +43,6 @@
             _$scroll = _isWindow ? _$window : $e,
             _nextHref = _$next.length > 0 ? $.trim(_$next.attr('href') + ' ' + _options.contentSelector) : false;
 
-
         // Initialization
         $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
         _wrapInnerContent();
