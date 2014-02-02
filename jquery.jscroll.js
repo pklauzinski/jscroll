@@ -41,7 +41,7 @@
             _$window = $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
-            _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector);
+            _nextHref = _$next.length > 0 ? $.trim(_$next.attr('href') + ' ' + _options.contentSelector) : false;
 
         // Initialization
         $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
@@ -99,7 +99,7 @@
                 innerTop = $inner.length ? $inner.offset().top : 0,
                 iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
 
-            if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
+            if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight() && _checkNextHref()) {
                 //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
@@ -114,6 +114,7 @@
                 _destroy();
                 return false;
             } else {
+                _debug('info', 'jScroll: nextHref is "' + data.nextHref + '"');
                 _setBindings();
                 return true;
             }
@@ -159,7 +160,7 @@
                     }
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
-                    data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
+                    data.nextHref = ($next.length > 0 && $next.attr('href')) ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
                     $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                     _checkNextHref();
                     if (_options.callback) {
