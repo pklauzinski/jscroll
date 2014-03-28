@@ -44,10 +44,12 @@
             _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector);
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
-        _wrapInnerContent();
-        _preloadImage();
-        _setBindings();
+        if (_$next.length > 0) {
+            $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+            _wrapInnerContent();
+            _preloadImage();
+            _setBindings();
+        }
 
         // Private methods
 
