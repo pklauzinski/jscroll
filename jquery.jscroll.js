@@ -99,7 +99,7 @@
                 innerTop = $inner.length ? $inner.offset().top : 0,
                 iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
 
-            if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
+            if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight() && !$inner.is(":hidden")) {
                 //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
