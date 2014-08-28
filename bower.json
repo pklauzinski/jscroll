@@ -6,6 +6,9 @@
         "name": "Philip KLauzinski",
         "url": "http://klauzinski.com"
     },
+    "main": [
+    	"jquery.jscroll.js"
+    ],
     "licenses": [
         {
             "type": "MIT",
