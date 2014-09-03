@@ -12,7 +12,7 @@
  * @author Philip Klauzinski
  * @requires jQuery v1.4.3+
  */
-(function($) {
+(function ($) {
 
     // Define the jscroll namespace and default settings
     $.jscroll = {
@@ -25,12 +25,13 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
-            callback: false
+            callback: false,
+            paddingSelector: '.jscroll-inner'
         }
     };
 
     // Constructor
-    var jScroll = function($e, options) {
+    var jScroll = function ($e, options) {
 
         // Private vars
         var _data = $e.data('jscroll'),
@@ -44,7 +45,7 @@
             _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector);
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+        $e.data('jscroll', $.extend({}, _data, { initialized: true, waiting: false, nextHref: _nextHref }));
         _wrapInnerContent();
         _preloadImage();
         _setBindings();
@@ -97,9 +98,10 @@
                 iContainerTop = parseInt($e.css('paddingTop')) + borderTopWidthInt,
                 iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
                 innerTop = $inner.length ? $inner.offset().top : 0,
-                iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
+                iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop),
+                $resultsContainer = $(_options.paddingSelector);
 
-            if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
+            if (!data.waiting && iTotalHeight + _options.padding >= $resultsContainer.outerHeight()) {
                 //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                 _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                 return _load();
@@ -126,7 +128,7 @@
                 if (_$body.height() <= _$window.height()) {
                     _observe();
                 }
-                _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
+                _$scroll.unbind('.jscroll').bind('scroll.jscroll', function () {
                     return _observe();
                 });
                 if (_options.autoTriggerUntil > 0) {
@@ -134,7 +136,7 @@
                 }
             } else {
                 _$scroll.unbind('.jscroll');
-                $next.bind('click.jscroll', function() {
+                $next.bind('click.jscroll', function () {
                     _nextWrap($next);
                     _load();
                     return false;
@@ -152,8 +154,8 @@
                 .children('.jscroll-added').last()
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
 
-            return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
-                $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
+            return $e.animate({ scrollTop: $inner.outerHeight() }, 0, function () {
+                $inner.find('div.jscroll-added').last().load(data.nextHref, function (r, status, xhr) {
                     if (status === 'error') {
                         return _destroy();
                     }
@@ -197,8 +199,8 @@
     };
 
     // Define the jscroll plugin method and loop
-    $.fn.jscroll = function(m) {
-        return this.each(function() {
+    $.fn.jscroll = function (m) {
+        return this.each(function () {
             var $this = $(this),
                 data = $this.data('jscroll');
             // Instantiate jScroll on this element if it hasn't been already
