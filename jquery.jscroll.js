@@ -43,11 +43,13 @@
             _$scroll = _isWindow ? _$window : $e,
             _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector);
 
-        // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
-        _wrapInnerContent();
-        _preloadImage();
-        _setBindings();
+        if (typeof _$next.attr('href') !== 'undefined' && _$next.attr('href') ){
+	        // Initialization just if href is defined
+	        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+	        _wrapInnerContent();
+	        _preloadImage();
+	        _setBindings();
+        }
 
         // Private methods
 
