@@ -23,6 +23,7 @@
             loadingHtml: '<small>Loading...</small>',
             padding: 0,
             nextSelector: 'a:last',
+            nextHrefAttribute: 'href',
             contentSelector: '',
             pagingSelector: '',
             callback: false
@@ -41,7 +42,7 @@
             _$window = $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
-            _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector);
+            _nextHref = $.trim(_$next.attr(options.nextHrefAttribute) + ' ' + _options.contentSelector);
 
         // Initialization
         $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
@@ -159,7 +160,7 @@
                     }
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
-                    data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
+                    data.nextHref = $next.attr(_options.nextHrefAttribute) ? $.trim($next.attr(_options.nextHrefAttribute) + ' ' + _options.contentSelector) : false;
                     $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                     _checkNextHref();
                     if (_options.callback) {
