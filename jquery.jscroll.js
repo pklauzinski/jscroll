@@ -25,7 +25,8 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
-            callback: false
+            callback: false,
+			onLoadComplete: false
         }
     };
 
@@ -149,6 +150,7 @@
                 data = $e.data('jscroll');
 
             data.waiting = true;
+				
             $inner.append('<div class="jscroll-added" />')
                 .children('.jscroll-added').last()
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
@@ -158,6 +160,11 @@
                     if (status === 'error') {
                         return _destroy();
                     }
+					
+					if (_options.onLoadComplete) {
+						_options.onLoadComplete.call(this);
+					}
+			
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
                     data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
