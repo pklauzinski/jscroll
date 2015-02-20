@@ -121,6 +121,7 @@
 
         function _setBindings() {
             var $next = $e.find(_options.nextSelector).first();
+            if($next.length == 0) return false; // patched for null nextSelector object - by FabrizioT
             if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                 _nextWrap($next);
                 if (_$body.height() <= _$window.height()) {
