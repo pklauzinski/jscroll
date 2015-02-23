@@ -156,14 +156,15 @@
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
 
             return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
+             
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
                     if (status === 'error') {
                         return _destroy();
                     }
 					
-					if (_options.onLoadComplete) {
-						_options.onLoadComplete.call(this);
-					}
+			if (_options.onLoadComplete) {
+				_options.onLoadComplete.call(this,data.nextHref);
+			}
 			
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
