@@ -25,7 +25,8 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
-            callback: false
+            callback: false,
+			onLoadComplete: false
         }
     };
 
@@ -121,6 +122,7 @@
 
         function _setBindings() {
             var $next = $e.find(_options.nextSelector).first();
+            if($next.length == 0) return false; // patched for null nextSelector object - by FabrizioT
             if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                 _nextWrap($next);
                 if (_$body.height() <= _$window.height()) {
@@ -148,15 +150,22 @@
                 data = $e.data('jscroll');
 
             data.waiting = true;
+				
             $inner.append('<div class="jscroll-added" />')
                 .children('.jscroll-added').last()
                 .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
 
             return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
+             
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {
                     if (status === 'error') {
                         return _destroy();
                     }
+					
+			if (_options.onLoadComplete) {
+				_options.onLoadComplete.call(this,data.nextHref);
+			}
+			
                     var $next = $(this).find(_options.nextSelector).first();
                     data.waiting = false;
                     data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
