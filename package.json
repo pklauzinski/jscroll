@@ -1,6 +1,6 @@
 {
   "name": "jscroll",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "jQuery plugin for infinite scrolling / auto-paging.",
   "main": "jquery.jscroll.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "name": "Philip Klauzinski",
     "url": "http://gui.ninja"
   },
-  "license": "MIT, GPL-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pklauzinski/jscroll/issues"
   },

@@ -1,6 +1,6 @@
 {
   "name": "jscroll",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "homepage": "http://jscroll.com",
   "authors": [
     {
@@ -27,7 +27,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "license": "MIT, GPL-2.0",
+  "license": ["MIT", "GPL-2.0"],
   "ignore": [
     "**/.*",
     "node_modules",

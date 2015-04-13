@@ -2,8 +2,8 @@
 
 Official site at [jscroll.com](http://jscroll.com/).
 
-* Copyright &copy; 2011-2015, [Philip Klauzinski](http://klauzinski.com/)
-* Current Version: 2.3.0
+* Copyright &copy; 2011-2015, [Philip Klauzinski](http://gui.ninja)
+* Current Version: 2.3.1
 * Dual licensed under the MIT and GPL Version 2 licenses.
 * http://jscroll.com/#license
 * http://www.opensource.org/licenses/mit-license.php
