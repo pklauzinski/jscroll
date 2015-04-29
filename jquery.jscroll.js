@@ -45,7 +45,8 @@
             _$window = $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
-            _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector),
+            _nextHref = _$next.attr('href') ? $.trim(_$next.attr('href') + ' ' + _options.contentSelector) : false,
+            _unique_id = Math.floor((Math.random() * 10000) + 1),
 
             // Check if a loading image is defined and preload
             _preloadImage = function() {
@@ -78,10 +79,11 @@
 
             // Remove the jscroll behavior and data from an element
             _destroy = function() {
-                return _$scroll.unbind('.jscroll')
-                    .removeData('jscroll')
-                    .find('.jscroll-inner').children().unwrap()
-                    .filter('.jscroll-added').children().unwrap();
+                _$scroll.unbind('.jscroll' + _unique_id);
+                $e.removeData('jscroll');
+                $e.find('.jscroll-inner').children().unwrap();
+                $e.filter('.jscroll-added').children().unwrap();
+                $e.find('.jscroll-loading').remove();
             },
 
             // Observe the scroll event for when to trigger the next load
@@ -96,7 +98,7 @@
                     innerTop = $inner.length ? $inner.offset().top : 0,
                     iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
 
-                if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
+                if (!data.waiting && $inner.outerHeight() > 0 && iTotalHeight + _options.padding >= $inner.outerHeight()) {
                     //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                     _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                     return _load();
@@ -123,15 +125,15 @@
                     if (_$body.height() <= _$window.height()) {
                         _observe();
                     }
-                    _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
+                    _$scroll.unbind('.jscroll' + _unique_id).bind('scroll.jscroll' + _unique_id, function() {
                         return _observe();
                     });
                     if (_options.autoTriggerUntil > 0) {
                         _options.autoTriggerUntil--;
                     }
                 } else {
-                    _$scroll.unbind('.jscroll');
-                    $next.bind('click.jscroll', function() {
+                    _$scroll.unbind('.jscroll' + _unique_id);
+                    $next.bind('click.jscroll' + _unique_id, function() {
                         _nextWrap($next);
                         _load();
                         return false;
@@ -187,10 +189,11 @@
             };
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref, unique_id: _unique_id}));
         _wrapInnerContent();
         _preloadImage();
         _setBindings();
+        _checkNextHref();
 
         // Expose API methods via the jQuery.jscroll namespace, e.g. $('sel').jscroll.method()
         $.extend($e.jscroll, {
