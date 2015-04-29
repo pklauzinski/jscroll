@@ -45,7 +45,7 @@
             _$window = $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
-            _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector),
+            _nextHref = _$next.attr('href') ? $.trim(_$next.attr('href') + ' ' + _options.contentSelector) : false,
             _unique_id = Math.floor((Math.random() * 10000) + 1),
 
             // Check if a loading image is defined and preload
@@ -193,6 +193,7 @@
         _wrapInnerContent();
         _preloadImage();
         _setBindings();
+        _checkNextHref();
 
         // Expose API methods via the jQuery.jscroll namespace, e.g. $('sel').jscroll.method()
         $.extend($e.jscroll, {
