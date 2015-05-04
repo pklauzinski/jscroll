@@ -10,7 +10,7 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @author Philip Klauzinski
- * @version 2.3.1
+ * @version 2.3.2
  * @requires jQuery v1.4.3+
  * @preserve
  */
@@ -56,7 +56,7 @@
                 }
             },
 
-            // Wrapper inner content, if it isn't already
+            // Wrap inner content, if it isn't already
             _wrapInnerContent = function() {
                 if (!$e.find('.jscroll-inner').length) {
                     $e.contents().wrapAll('<div class="jscroll-inner" />');
@@ -118,6 +118,9 @@
 
             _setBindings = function() {
                 var $next = $e.find(_options.nextSelector).first();
+                if (!$next.length) {
+                    return;
+                }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
                     if (_$body.height() <= _$window.height()) {

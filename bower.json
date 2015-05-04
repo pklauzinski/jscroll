@@ -1,6 +1,6 @@
 {
   "name": "jscroll",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "homepage": "http://jscroll.com",
   "authors": [
     {
@@ -33,6 +33,7 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "Gruntfile.js"
   ]
 }
