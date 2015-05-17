@@ -28,8 +28,9 @@
             padding: 0,
             nextSelector: 'a:last',
             contentSelector: '',
-            pagingSelector: '',
-            callback: false
+            pagingSelector: null,
+            callbackBefore: null,
+            callbackAfter: null
         }
     };
 
@@ -38,7 +39,7 @@
 
         // Private vars and methods
         var _data = $e.data('jscroll'),
-            _userOptions = (typeof options === 'function') ? { callback: options } : options,
+            _userOptions = (typeof options === 'function') ? { callbackAfter: options } : options,
             _options = $.extend({}, $.jscroll.defaults, _userOptions, _data || {}),
             _isWindow = ($e.css('overflow-y') === 'visible'),
             _$next = $e.find(_options.nextSelector).first(),
@@ -49,10 +50,12 @@
 
             // Check if a loading image is defined and preload
             _preloadImage = function() {
-                var src = $(_options.loadingHtml).filter('img').attr('src');
-                if (src) {
-                    var image = new Image();
-                    image.src = src;
+                if (_options.loadingHtml) {
+                    var src = $(_options.loadingHtml).filter('img').attr('src');
+                    if (src) {
+                        var image = new Image();
+                        image.src = src;
+                    }
                 }
             },
 
@@ -68,7 +71,7 @@
                 var $parent;
                 if (_options.pagingSelector) {
                     $next.closest(_options.pagingSelector).hide();
-                } else {
+                } else if (_options.pagingSelector === null) {
                     $parent = $next.parent().not('.jscroll-inner,.jscroll-added').addClass('jscroll-next-parent').hide();
                     if (!$parent.length) {
                         $next.wrap('<div class="jscroll-next-parent" />').parent().hide();
@@ -145,25 +148,37 @@
             // Load the next set of content, if available
             _load = function() {
                 var $inner = $e.find('div.jscroll-inner').first(),
+                    $current = _$next,
                     data = $e.data('jscroll');
 
                 data.waiting = true;
-                $inner.append('<div class="jscroll-added" />')
-                    .children('.jscroll-added').last()
-                    .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
+
+                if (_options.callbackBefore) {
+                    debug('info', 'jScroll: Running callbackBefore');
+                    _options.callbackBefore.call(this, $current);
+                }
+
+                if (_options.loadingHtml) {
+                    $inner.append('<div class="jscroll-added" />')
+                        .children('.jscroll-added').last()
+                        .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
+                } else {
+                    $inner.append('<div class="jscroll-added" />');
+                }
 
                 return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                     $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status) {
                         if (status === 'error') {
                             return _destroy();
                         }
-                        var $next = $(this).find(_options.nextSelector).first();
+                        _$next = $(this).find(_options.nextSelector).first();
                         data.waiting = false;
-                        data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
+                        data.nextHref = _$next.attr('href') ? $.trim(_$next.attr('href') + ' ' + _options.contentSelector) : false;
                         $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                         _checkNextHref();
-                        if (_options.callback) {
-                            _options.callback.call(this);
+                        if (_options.callbackAfter) {
+                            _debug('info', 'jScroll: Running callbackAfter');
+                            _options.callbackAfter.call(this, $current, _$next);
                         }
                         _debug('dir', data);
                     });
@@ -188,6 +203,11 @@
                     }
                 }
             };
+
+        // callbackAfter was previously called callback
+        if (_userOptions.callback) {
+            _userOptions.callbackAfter = _userOptions.callback;
+        }
 
         // Initialization
         $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
