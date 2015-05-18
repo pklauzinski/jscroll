@@ -1,10 +1,10 @@
 {
   "name": "jscroll",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "jQuery plugin for infinite scrolling / auto-paging.",
   "main": "jquery.jscroll.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt jshint"
   },
   "repository": {
     "type": "git",
