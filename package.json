@@ -1,6 +1,6 @@
 {
   "name": "jscroll",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "jQuery plugin for infinite scrolling / auto-paging.",
   "main": "jquery.jscroll.js",
   "scripts": {
@@ -30,6 +30,9 @@
     "url": "https://github.com/pklauzinski/jscroll/issues"
   },
   "homepage": "http://jscroll.com",
+  "dependencies": {
+    "jQuery": ">=1.4.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.1",
