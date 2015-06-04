@@ -154,7 +154,7 @@
                 data.waiting = true;
 
                 if (_options.callbackBefore) {
-                    debug('info', 'jScroll: Running callbackBefore');
+                    _debug('info', 'jScroll: Running callbackBefore');
                     _options.callbackBefore.call(this, $current);
                 }
 
