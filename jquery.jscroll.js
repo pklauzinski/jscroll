@@ -160,6 +160,7 @@
                 var $inner = $e.find('div.jscroll-inner').first(),
                     data = $e.data('jscroll'),
                     expand_method = "append",
+                    scrollTo = $inner.outerHeight(),
                     container_selector = "last";
 
                 data.waiting = true;
@@ -167,17 +168,19 @@
                 if (_options.reverse) {
                     expand_method = "prepend";
                     container_selector = "first";
+                    scrollTo = _options.padding + 5;
                 }
 
                 $inner[expand_method]('<div class="jscroll-added" />')
                     .children('.jscroll-added')[container_selector]()
                     .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
 
-                return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
+                return $e.animate({scrollTop: scrollTo}, 0, function() {
                     $inner.find('div.jscroll-added')[container_selector]().load(data.nextHref, function(r, status) {
                         if (status === 'error') {
                             return _destroy();
                         }
+
                         var $next = $(this).find(_options.nextSelector).first();
                         data.waiting = false;
                         data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
