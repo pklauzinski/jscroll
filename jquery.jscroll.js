@@ -112,7 +112,7 @@
                            all). // }}}
             */
 
-            dataFilter: false,
+            dataFilter: false
             /* dataFilter: fn(html); return html         // {{{
                 Allow user function to modify raw HTML returned 
                 from $.ajax request
@@ -219,7 +219,7 @@
                     return;
                 }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
-                    if (!_options.getNextHref) _nextWrap($next);
+                    if (!_options.getNextHref) { _nextWrap($next); }
                     if (_$body.height() <= _$window.height()) {
                         _observe();
                     }
@@ -231,12 +231,13 @@
                     }
                 } else {
                     _$scroll.unbind('.jscroll');
-                    if (!_options.getNextHref)
+                    if (!_options.getNextHref) {
                     $next.bind('click.jscroll', function() {
                         _nextWrap($next);
                         _load();
                         return false;
                     });
+                    }
                 }
             },
 
@@ -251,7 +252,7 @@
                         return callback.call(element, data, textStatus, jqXHR);
                     }
                 });
-            };
+            },
  
             // Load the next set of content, if available
             _load = function() {
@@ -259,14 +260,14 @@
                     data = $e.data('jscroll');
 
                 data.waiting = true;
-                if (!_options.getInsertPoint) 
+                if (!_options.getInsertPoint) {
                 $inner.append('<div class="jscroll-added" />')
                     .children('.jscroll-added').last()
                     .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
-                else 
+                } else {
                     _options.getInsertPoint($inner).before('<div class="jscroll-added" />')
                         .children('.jscroll-added').last()
-                        .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
+                        .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>'); }
                 return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                     _get($inner.find('div.jscroll-added').last(), data.nextHref, function(r, status) {
                         if (status === 'error') {
