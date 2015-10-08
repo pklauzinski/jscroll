@@ -154,16 +154,19 @@
 
                 return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                     $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status) {
+                        data.waiting = false;
                         if (status === 'error') {
+                            if (_options.callback) {
+                                _options.callback.call(this, status);
+                            }
                             return _destroy();
                         }
                         var $next = $(this).find(_options.nextSelector).first();
-                        data.waiting = false;
                         data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
                         $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                         _checkNextHref();
                         if (_options.callback) {
-                            _options.callback.call(this);
+                            _options.callback.call(this, status);
                         }
                         _debug('dir', data);
                     });
