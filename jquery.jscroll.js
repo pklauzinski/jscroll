@@ -42,11 +42,11 @@
 
 	this.getdata=function(){
 	return $e.data('jscroll');
-	}
+	};
 	
 	this.getOptions=function(){
 	return _options;
-	}
+	};
 	
 
 
