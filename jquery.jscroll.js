@@ -27,6 +27,7 @@
             loadingHtml: '<small>Loading...</small>',
             padding: 0,
             nextSelector: 'a:last',
+            prevSelector: 'a:first',
             contentSelector: '',
             pagingSelector: '',
             callback: false
@@ -42,10 +43,13 @@
             _options = $.extend({}, $.jscroll.defaults, _userOptions, _data || {}),
             _isWindow = ($e.css('overflow-y') === 'visible'),
             _$next = $e.find(_options.nextSelector).first(),
+            _$prev = $e.find(_options.prevSelector).first(),
             _$window = $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
             _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector),
+            _prevHref = $.trim(_$prev.attr('href') + ' ' + _options.contentSelector),
+            _originalOptions = $.extend({}, _options),
 
             // Check if a loading image is defined and preload
             _preloadImage = function() {
@@ -60,6 +64,19 @@
             _wrapInnerContent = function() {
                 if (!$e.find('.jscroll-inner').length) {
                     $e.contents().wrapAll('<div class="jscroll-inner" />');
+                }
+            },
+
+            // Find the prev link's parent, or add one, and hide it
+            _prevWrap = function($prev) {
+                var $parent;
+                if (_options.pagingSelector) {
+                    $prev.closest(_options.pagingSelector).hide();
+                } else {
+                    $parent = $prev.parent().not('.jscroll-inner,.jscroll-prepended').addClass('jscroll-prev-parent').hide();
+                    if (!$parent.length) {
+                        $prev.wrap('<div class="jscroll-prev-parent" />').parent().hide();
+                    }
                 }
             },
 
@@ -95,55 +112,116 @@
                     iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
                     innerTop = $inner.length ? $inner.offset().top : 0,
                     iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
-
                 if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
                     //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                     _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
-                    return _load();
+                    return _loadNext();
+                }
+
+                _debug('info', 'W3line-jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading prev request...');
+            },
+
+            // Check if the href for the prev set of content has been set
+            _checkPrevHref = function(data) {
+                data = data || $e.data('jscroll');
+                _setBindingsPrev();
+                if (!data || !data.prevHref) {
+                    return false;
+                } else {
+                    return true;
                 }
             },
 
             // Check if the href for the next set of content has been set
             _checkNextHref = function(data) {
                 data = data || $e.data('jscroll');
+                _setBindingsNext();
                 if (!data || !data.nextHref) {
                     _debug('warn', 'jScroll: nextSelector not found - destroying');
                     _destroy();
                     return false;
                 } else {
-                    _setBindings();
+                    _setBindingsNext();
                     return true;
                 }
             },
 
-            _setBindings = function() {
-                var $next = $e.find(_options.nextSelector).first();
-                if (!$next.length) {
-                    return;
-                }
-                if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
-                    _nextWrap($next);
-                    if (_$body.height() <= _$window.height()) {
-                        _observe();
-                    }
-                    _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
-                        return _observe();
-                    });
-                    if (_options.autoTriggerUntil > 0) {
-                        _options.autoTriggerUntil--;
-                    }
-                } else {
-                    _$scroll.unbind('.jscroll');
-                    $next.bind('click.jscroll', function() {
-                        _nextWrap($next);
-                        _load();
+            _setBindingsPrev = function() {
+                var $prev = $e.find(_options.prevSelector).first();
+                if ($prev.length) {
+                    $prev.unbind('click.jscroll').bind('click.jscroll', function() {
+                        _prevWrap($prev);
+                        _loadPrev();
                         return false;
                     });
                 }
             },
 
+            _setBindingsNext = function() {
+                var $next = $e.find(_options.nextSelector).first();
+                if ($next.length) {
+                    if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
+                        _nextWrap($next);
+                        if (_$body.height() <= _$window.height()) {
+                            _observe();
+                        }
+                        _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
+                            return _observe();
+                        });
+                    } else {
+                        _$scroll.unbind('.jscroll');
+                        $next.unbind('click.jscroll').bind('click.jscroll', function() {
+                            if( _originalOptions.autoTriggerUntil > 0 && _options.autoTriggerUntil <= 0 ) {
+                                _options.autoTriggerUntil = _originalOptions.autoTriggerUntil;
+                            }
+                            _nextWrap($next);
+                            _loadNext();
+                            return false;
+                        });
+                    }
+                }
+            },
+
+            _setBindings = function() {
+                _setBindingsPrev();
+                _setBindingsNext();
+            },
+
+            // Load the prev set of content, if available
+            _loadPrev = function() {
+                var $inner = $e.find('div.jscroll-inner').first(),
+                    data = $e.data('jscroll');
+
+                data.waiting = true;
+                $inner.prepend('<div class="jscroll-prepended" />')
+                    .children('.jscroll-prepended').first()
+                    .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
+
+                return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
+                    $inner.find('div.jscroll-prepended').first().load(data.prevHref, function(r, status) {
+                        if (status === 'error') {
+                            return _destroy();
+                        }
+                        var $prev = $(this).find(_options.prevSelector).first();
+                        data.waiting = false;
+                        data.prevHref = $prev.attr('href') ? $.trim($prev.attr('href') + ' ' + _options.contentSelector) : false;
+                        $('.jscroll-prev-parent', $e).remove(); // Remove the previous prev link now that we have a new one
+                        _checkPrevHref();
+                        if (_options.callback) {
+                            _options.callback.call(this);
+                        }
+                        // Remove next link
+                        var $next = $(this).find(_options.nextSelector).first();
+                        _nextWrap($next);
+                        $(this).find('.jscroll-next-parent').first().remove();
+
+                        _debug('dir', data);
+                    });
+                });
+            },
+
             // Load the next set of content, if available
-            _load = function() {
+            _loadNext = function() {
                 var $inner = $e.find('div.jscroll-inner').first(),
                     data = $e.data('jscroll');
 
@@ -157,6 +235,9 @@
                         if (status === 'error') {
                             return _destroy();
                         }
+                        if (_options.autoTriggerUntil > 0) {
+                            _options.autoTriggerUntil--;
+                        }
                         var $next = $(this).find(_options.nextSelector).first();
                         data.waiting = false;
                         data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
@@ -165,6 +246,11 @@
                         if (_options.callback) {
                             _options.callback.call(this);
                         }
+                        // Remove prev link
+                        var $prev = $(this).find(_options.prevSelector).first();
+                        _prevWrap($prev);
+                        $(this).find('.jscroll-prev-parent').first().remove();
+
                         _debug('dir', data);
                     });
                 });
@@ -190,7 +276,7 @@
             };
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref, prevHref: _prevHref}));
         _wrapInnerContent();
         _preloadImage();
         _setBindings();
