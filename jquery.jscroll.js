@@ -86,20 +86,22 @@
 
             // Observe the scroll event for when to trigger the next load
             _observe = function() {
-                _wrapInnerContent();
-                var $inner = $e.find('div.jscroll-inner').first(),
-                    data = $e.data('jscroll'),
-                    borderTopWidth = parseInt($e.css('borderTopWidth'), 10),
-                    borderTopWidthInt = isNaN(borderTopWidth) ? 0 : borderTopWidth,
-                    iContainerTop = parseInt($e.css('paddingTop'), 10) + borderTopWidthInt,
-                    iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
-                    innerTop = $inner.length ? $inner.offset().top : 0,
-                    iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
-
-                if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
-                    //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
-                    _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
-                    return _load();
+                if ($(e).is(":visible")) {
+                    _wrapInnerContent();
+                    var $inner = $e.find('div.jscroll-inner').first(),
+                        data = $e.data('jscroll'),
+                        borderTopWidth = parseInt($e.css('borderTopWidth'), 10),
+                        borderTopWidthInt = isNaN(borderTopWidth) ? 0 : borderTopWidth,
+                        iContainerTop = parseInt($e.css('paddingTop'), 10) + borderTopWidthInt,
+                        iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
+                        innerTop = $inner.length ? $inner.offset().top : 0,
+                        iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
+    
+                    if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
+                        //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
+                        _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
+                        return _load();
+                    }   
                 }
             },
 
