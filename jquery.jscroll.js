@@ -115,6 +115,10 @@
                     return true;
                 }
             },
+            
+            _documentOffsetTop = function(e) {
+                return e.offsetTop + ( e.offsetParent ? _documentOffsetTop(e.offsetParent) : 0 );
+            },
 
             _setBindings = function() {
                 var $next = $e.find(_options.nextSelector).first();
@@ -123,7 +127,8 @@
                 }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
-                    if (_$body.height() <= _$window.height()) {
+                    var scrollingHeight = _$body.height() - _documentOffsetTop($e[0]);
+                    if (scrollingHeight <= _$window.height()) {
                         _observe();
                     }
                     _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
