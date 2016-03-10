@@ -144,7 +144,7 @@
             },
 
             _defaultLoadFunc = function (data, target, callback) {
-                target.load(data.nextHref, function (r, status) { callback(status); });
+                target.load(data.nextHref, function (r, status) { $.proxy(callback, target)(status); });
             },
 
             // Load the next set of content, if available
