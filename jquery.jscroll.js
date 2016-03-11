@@ -115,7 +115,7 @@
                     return true;
                 }
             },
-
+            
             _setBindings = function() {
                 var $next = $e.find(_options.nextSelector).first();
                 if (!$next.length) {
@@ -123,7 +123,10 @@
                 }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
-                    if (_$body.height() <= _$window.height()) {
+                     var scrollingBodyHeight = _$body.height() - $e.offset().top,
+                    	scrollingHeight = ($e.height() < scrollingBodyHeight) ? $e.height() : scrollingBodyHeight,
+                    	windowHeight = ($e.offset().top - _$window.scrollTop() > 0) ? _$window.height() - ($e.offset().top - $(window).scrollTop()) : _$window.height();
+                    if (scrollingHeight <= windowHeight) {
                         _observe();
                     }
                     _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
