@@ -116,10 +116,6 @@
                 }
             },
             
-            _documentOffsetTop = function(e) {
-                return e.offsetTop + ( e.offsetParent ? _documentOffsetTop(e.offsetParent) : 0 );
-            },
-
             _setBindings = function() {
                 var $next = $e.find(_options.nextSelector).first();
                 if (!$next.length) {
@@ -127,7 +123,7 @@
                 }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
-                    var scrollingHeight = _$body.height() - _documentOffsetTop($e[0]);
+                    var scrollingHeight = _$body.height() - $e.offset().top;
                     if (scrollingHeight <= _$window.height()) {
                         _observe();
                     }
