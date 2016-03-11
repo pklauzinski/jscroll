@@ -123,8 +123,10 @@
                 }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
-                    var scrollingHeight = _$body.height() - $e.offset().top;
-                    if (scrollingHeight <= _$window.height()) {
+                     var scrollingBodyHeight = _$body.height() - $e.offset().top,
+                    	scrollingHeight = ($e.height() < scrollingBodyHeight) ? $e.height() : scrollingBodyHeight,
+                    	windowHeight = ($e.offset().top - _$window.scrollTop() > 0) ? _$window.height() - ($e.offset().top - $(window).scrollTop()) : _$window.height();
+                    if (scrollingHeight <= windowHeight) {
                         _observe();
                     }
                     _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
