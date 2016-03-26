@@ -1,5 +1,7 @@
 # jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging
 
+[![Join the chat at https://gitter.im/pklauzinski/jscroll](https://badges.gitter.im/pklauzinski/jscroll.svg)](https://gitter.im/pklauzinski/jscroll?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Official site at [jscroll.com](http://jscroll.com/).
 
 * Copyright &copy; 2011-2015, [Philip Klauzinski](http://gui.ninja)
