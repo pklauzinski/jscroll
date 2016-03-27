@@ -29,12 +29,26 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
-            callback: false
+            callback: false,
+			beforeSend:false,
+			afterContentLoad:false,
+			reTriggerUntil:0
+			
         }
     };
 
     // Constructor
     var jScroll = function($e, options) {
+
+	this.getdata=function(){
+	return $e.data('jscroll');
+	};
+	
+	this.getOptions=function(){
+	return _options;
+	};
+	
+
 
         // Private vars and methods
         var _data = $e.data('jscroll'),
@@ -121,6 +135,9 @@
                 if (!$next.length) {
                     return;
                 }
+				
+			
+					
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
                      var scrollingBodyHeight = _$body.height() - $e.offset().top,
@@ -137,11 +154,14 @@
                     }
                 } else {
                     _$scroll.unbind('.jscroll');
-                    $next.bind('click.jscroll', function() {
+                    $next.one('click.jscroll', function() {
                         _nextWrap($next);
                         _load();
+						
+						_options.autoTriggerUntil=_options.reTriggerUntil;
                         return false;
                     });
+					
                 }
             },
 
@@ -154,23 +174,32 @@
                 $inner.append('<div class="jscroll-added" />')
                     .children('.jscroll-added').last()
                     .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
-
-                return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
-                    $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status) {
+ 			 
+			  _options.beforeSend(data);
+				
+				$.get(data.nextHref, function(r, status) {
                         if (status === 'error') {
                             return _destroy();
                         }
-                        var $next = $(this).find(_options.nextSelector).first();
+						
+						r=_options.afterContentLoad(r);
+						var div=$inner.find('div.jscroll-added').last();
+						div.html(r);
+                        var $next = $(div).find(_options.nextSelector).first();
                         data.waiting = false;
                         data.nextHref = $next.attr('href') ? $.trim($next.attr('href') + ' ' + _options.contentSelector) : false;
                         $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                         _checkNextHref();
                         if (_options.callback) {
+							
                             _options.callback.call(this);
                         }
                         _debug('dir', data);
+						
+						
                     });
-                });
+               
+			 
             },
 
             // Safe console debug - http://klauzinski.com/javascript/safe-firebug-console-in-javascript
@@ -200,7 +229,9 @@
 
         // Expose API methods via the jQuery.jscroll namespace, e.g. $('sel').jscroll.method()
         $.extend($e.jscroll, {
-            destroy: _destroy
+            destroy: _destroy,
+			getdata:this.getdata,
+			getOptions:this.getOptions
         });
         return $e;
     };
