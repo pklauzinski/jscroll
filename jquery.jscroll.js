@@ -25,6 +25,7 @@
             autoTrigger: true,
             autoTriggerUntil: false,
             loadingHtml: '<small>Loading...</small>',
+            loadingFunction: false,
             padding: 0,
             nextSelector: 'a:last',
             contentSelector: '',
@@ -115,7 +116,7 @@
                     return true;
                 }
             },
-            
+
             _setBindings = function() {
                 var $next = $e.find(_options.nextSelector).first();
                 if (!$next.length) {
@@ -153,7 +154,13 @@
                 data.waiting = true;
                 $inner.append('<div class="jscroll-added" />')
                     .children('.jscroll-added').last()
-                    .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div>');
+                    .html('<div class="jscroll-loading" id="jscroll-loading">' + _options.loadingHtml + '</div>')
+                    .promise()
+                    .done(function(){
+                        if (_options.loadingFunction) {
+                            _options.loadingFunction();
+                        }
+                    });
 
                 return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                     $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status) {
