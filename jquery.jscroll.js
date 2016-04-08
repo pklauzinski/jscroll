@@ -10,7 +10,7 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @author Philip Klauzinski
- * @version 2.3.4
+ * @version 2.3.5
  * @requires jQuery v1.4.3+
  * @preserve
  */
@@ -97,12 +97,12 @@
                         iTopHeight = _isWindow ? _$scroll.scrollTop() : $e.offset().top,
                         innerTop = $inner.length ? $inner.offset().top : 0,
                         iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
-    
+
                     if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
                         //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                         _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                         return _load();
-                    }   
+                    }
                 }
             },
 

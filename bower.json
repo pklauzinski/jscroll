@@ -1,6 +1,6 @@
 {
   "name": "jscroll",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "homepage": "http://jscroll.com",
   "authors": [
     {
@@ -20,6 +20,7 @@
     "jscroll",
     "infinite-scroll",
     "infinite-scrolling",
+    "infinite-ajax-scroll",
     "jquery-scrolling",
     "ajax-scrolling",
     "scrolling",
