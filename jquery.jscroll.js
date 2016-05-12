@@ -30,6 +30,7 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
+            windowSelector: '',
             callback: false
         }
     };
@@ -43,7 +44,7 @@
             _options = $.extend({}, $.jscroll.defaults, _userOptions, _data || {}),
             _isWindow = ($e.css('overflow-y') === 'visible'),
             _$next = $e.find(_options.nextSelector).first(),
-            _$window = $(window),
+            _$window = _options.windowSelector ? $(_options.windowSelector): $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
             _nextHref = $.trim(_$next.attr('href') + ' ' + _options.contentSelector),
