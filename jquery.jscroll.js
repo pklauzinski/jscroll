@@ -203,7 +203,7 @@
             };
 
         // Initialization
-        if (_nextHref != 'undefined') {
+        if (_nextHref !== 'undefined') {
             $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref, refresh: _options.refresh}));
             _wrapInnerContent();
             _preloadImage();
@@ -228,7 +228,9 @@
                 data = $this.data('jscroll'), jscroll;
 
             // Instantiate jScroll on this element if it hasn't been already
-            if (data && data.initialized && data.refresh === false) return;
+            if (data && data.initialized && data.refresh === false){
+                return;
+            }
             jscroll = new jScroll($this, m);
         });
     };
