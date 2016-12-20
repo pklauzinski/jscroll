@@ -8,6 +8,8 @@
  * @version 2.3.9
  * @requires jQuery v1.4.3+
  * @preserve
+ *
+ * BUGFIX by Christoph Illnar, COMMUNITOR
  */
 (function($) {
 
@@ -26,7 +28,8 @@
             contentSelector: '',
             pagingSelector: '',
             callback: false
-        }
+        },
+        instances: 0
     };
 
     // Constructor
@@ -74,8 +77,13 @@
 
             // Remove the jscroll behavior and data from an element
             _destroy = function() {
-                return _$scroll.unbind('.jscroll')
-                    .removeData('jscroll')
+                var data = $e.data('jscroll');
+                // don't do anything when called on an uninitialized element
+                if (!data) {
+                    return;
+                }
+                $e.removeData('jscroll');
+                return _$scroll.unbind('.jscroll.instance_'+data.id)
                     .find('.jscroll-inner').children().unwrap()
                     .filter('.jscroll-added').children().unwrap();
             },
@@ -95,7 +103,7 @@
 
                     if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
                         //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
-                        _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
+                        _debug('info', 'jScroll['+data.id+']:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                         return _load();
                     }
                 }
@@ -105,7 +113,7 @@
             _checkNextHref = function(data) {
                 data = data || $e.data('jscroll');
                 if (!data || !data.nextHref) {
-                    _debug('warn', 'jScroll: nextSelector not found - destroying');
+                    _debug('warn', 'jScroll['+data.id+']: nextSelector not found - destroying');
                     _destroy();
                     return false;
                 } else {
@@ -115,7 +123,8 @@
             },
 
             _setBindings = function() {
-                var $next = $e.find(_options.nextSelector).first();
+                var $next = $e.find(_options.nextSelector).first(),
+                    data = $e.data('jscroll');
                 if (!$next.length) {
                     return;
                 }
@@ -127,15 +136,15 @@
                     if (scrollingHeight <= windowHeight) {
                         _observe();
                     }
-                    _$scroll.unbind('.jscroll').bind('scroll.jscroll', function() {
+                    _$scroll.unbind('.jscroll.instance_'+data.id).bind('scroll.jscroll.instance_'+data.id, function() {
                         return _observe();
                     });
                     if (_options.autoTriggerUntil > 0) {
                         _options.autoTriggerUntil--;
                     }
                 } else {
-                    _$scroll.unbind('.jscroll');
-                    $next.bind('click.jscroll', function() {
+                    _$scroll.unbind('.jscroll.instance_'+data.id);
+                    $next.bind('click.jscroll.instance_'+data.id, function() {
                         _nextWrap($next);
                         _load();
                         return false;
@@ -151,7 +160,7 @@
                 data.waiting = true;
                 $inner.append('<div class="jscroll-added" />')
                     .children('.jscroll-added').last()
-                    .html('<div class="jscroll-loading" id="jscroll-loading">' + _options.loadingHtml + '</div>')
+                    .html('<div class="jscroll-loading jscroll-loading-'+data.id+'">' + _options.loadingHtml + '</div>')
                     .promise()
                     .done(function() {
                         if (_options.loadingFunction) {
@@ -198,7 +207,7 @@
             };
 
         // Initialization
-        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+        $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref, id: ++$.jscroll.instances}));
         _wrapInnerContent();
         _preloadImage();
         _setBindings();
