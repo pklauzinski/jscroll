@@ -2,7 +2,7 @@
  * jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging
  * http://jscroll.com/
  *
- * Copyright 2011-2013, Philip Klauzinski
+ * Copyright 2011-2016, Philip Klauzinski
  * http://klauzinski.com/
  * Dual licensed under the MIT and GPL Version 2 licenses.
  * http://jscroll.com/#license
@@ -10,7 +10,7 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @author Philip Klauzinski
- * @version 2.3.5
+ * @version 2.3.6
  * @requires jQuery v1.4.3+
  * @preserve
  */
@@ -165,7 +165,8 @@
                     });
 
                 return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
-                    $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status) {
+                    var nextHref = data.nextHref;
+                    $inner.find('div.jscroll-added').last().load(nextHref, function(r, status) {
                         if (status === 'error') {
                             return _destroy();
                         }
@@ -175,7 +176,7 @@
                         $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                         _checkNextHref();
                         if (_options.callback) {
-                            _options.callback.call(this);
+                            _options.callback.call(this, nextHref);
                         }
                         _debug('dir', data);
                     });
