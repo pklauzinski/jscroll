@@ -8,7 +8,7 @@
 Official site at [jscroll.com](http://jscroll.com/).
 
 * Copyright &copy; 2011-2017, [Philip Klauzinski](http://webtopian.com)
-* Current Version: 2.3.5
+* Current Version: 2.3.7
 * Dual licensed under the MIT and GPL Version 2 licenses.
 * http://jscroll.com/#license
 * http://www.opensource.org/licenses/mit-license.php
