@@ -1,13 +1,16 @@
 {
   "name": "jscroll",
-  "version": "2.3.6",
   "homepage": "http://jscroll.com",
   "authors": [
     {
       "name": "Philip Klauzinski",
-      "homepage": "http://gui.ninja"
+      "homepage": "http://webtopian.com"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pklauzinski/jscroll"
+  },
   "description": "jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging",
   "main": "jquery.jscroll.js",
   "dependencies": {
