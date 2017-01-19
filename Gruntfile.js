@@ -29,7 +29,7 @@ module.exports = function(grunt) {
                 }
             },
             files: {
-                src: ['Grunfile.js', 'jquery.jscroll.js']
+                src: ['Gruntfile.js', 'jquery.jscroll.js']
             }
         },
 
