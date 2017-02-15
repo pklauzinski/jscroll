@@ -11,6 +11,7 @@
  * @Supports AMD pattern
  */
 (function($, factory){
+    'use strict';
     if (typeof define === 'function' && define.amd) {
         return factory($);
     } else {
