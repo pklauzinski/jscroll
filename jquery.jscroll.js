@@ -5,7 +5,7 @@
  * @copyright 2011-2017, Philip Klauzinski
  * @license Dual licensed under the MIT and GPL Version 2 licenses.
  * @author Philip Klauzinski (http://webtopian.com)
- * @version 2.3.8
+ * @version 2.3.9
  * @requires jQuery v1.4.3+
  * @preserve
  */
