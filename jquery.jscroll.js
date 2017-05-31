@@ -5,7 +5,7 @@
  * @copyright 2011-2017, Philip Klauzinski
  * @license Dual licensed under the MIT and GPL Version 2 licenses.
  * @author Philip Klauzinski (http://webtopian.com)
- * @version 2.3.7
+ * @version 2.3.8
  * @requires jQuery v1.4.3+
  * @preserve
  */
@@ -121,9 +121,9 @@
                 }
                 if (_options.autoTrigger && (_options.autoTriggerUntil === false || _options.autoTriggerUntil > 0)) {
                     _nextWrap($next);
-                     var scrollingBodyHeight = _$body.height() - $e.offset().top,
-                    	scrollingHeight = ($e.height() < scrollingBodyHeight) ? $e.height() : scrollingBodyHeight,
-                    	windowHeight = ($e.offset().top - _$window.scrollTop() > 0) ? _$window.height() - ($e.offset().top - $(window).scrollTop()) : _$window.height();
+                    var scrollingBodyHeight = _$body.height() - $e.offset().top,
+                        scrollingHeight = ($e.height() < scrollingBodyHeight) ? $e.height() : scrollingBodyHeight,
+                        windowHeight = ($e.offset().top - _$window.scrollTop() > 0) ? _$window.height() - ($e.offset().top - $(window).scrollTop()) : _$window.height();
                     if (scrollingHeight <= windowHeight) {
                         _observe();
                     }
@@ -153,7 +153,7 @@
                     .children('.jscroll-added').last()
                     .html('<div class="jscroll-loading" id="jscroll-loading">' + _options.loadingHtml + '</div>')
                     .promise()
-                    .done(function(){
+                    .done(function() {
                         if (_options.loadingFunction) {
                             _options.loadingFunction();
                         }
@@ -214,13 +214,13 @@
     $.fn.jscroll = function(m) {
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('jscroll'), jscroll;
+                data = $this.data('jscroll');
 
             // Instantiate jScroll on this element if it hasn't been already
             if (data && data.initialized) {
                 return;
             }
-            jscroll = new jScroll($this, m);
+            jScroll($this, m);
         });
     };
 

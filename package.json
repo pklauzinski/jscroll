@@ -1,11 +1,10 @@
 {
   "name": "jscroll",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "description": "jQuery plugin for infinite scrolling / auto-paging.",
   "main": "jquery.jscroll.js",
   "scripts": {
-    "test": "grunt jshint",
-    "build": "grunt uglify"
+    "test": "grunt eslint"
   },
   "repository": {
     "type": "git",
@@ -36,7 +35,6 @@
   },
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-contrib-uglify": "^0.9.2"
+    "gruntify-eslint": "^3.1.0"
   }
 }

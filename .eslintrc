@@ -1,0 +1,128 @@
+{
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "jQuery": true
+    },
+    "rules": {
+        "curly": [
+            2,
+            "all"
+        ],
+        "eqeqeq": 2,
+        "no-eq-null": 2,
+        "guard-for-in": 2,
+        "no-unused-vars": [
+            2,
+            {
+                "args": "none"
+            }
+        ],
+        "strict": [
+            2,
+            "safe"
+        ],
+        "no-use-before-define": [
+            2,
+            {
+                "functions": false,
+                "variables": false
+            }
+        ],
+        "operator-linebreak": [
+            2,
+            "after"
+        ],
+        "max-len": [
+            2,
+            {
+                "code": 200,
+                "tabWidth": 4,
+                "ignoreComments": true
+            }
+        ],
+        "indent": [
+            2,
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "quotes": [
+            2,
+            "single"
+        ],
+        "no-multi-str": 2,
+        "no-mixed-spaces-and-tabs": 2,
+        "no-trailing-spaces": 2,
+        "space-unary-ops": [
+            2,
+            {
+                "nonwords": false,
+                "overrides": {}
+            }
+        ],
+        "brace-style": [
+            2,
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "comma-spacing": [
+            2,
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "comma-dangle": [
+            2,
+            "never"
+        ],
+        "comma-style": [
+            "error",
+            "last"
+        ],
+        "keyword-spacing": [
+            2,
+            {}
+        ],
+        "space-infix-ops": 2,
+        "space-before-blocks": [
+            2,
+            "always"
+        ],
+        "space-before-function-paren": [
+            2,
+            {
+                "anonymous": "ignore",
+                "named": "never"
+            }
+        ],
+        "array-bracket-spacing": [
+            2,
+            "never"
+        ],
+        "space-in-parens": [
+            2,
+            "never"
+        ],
+        "no-multiple-empty-lines": 2,
+        "no-with": 2,
+        "no-spaced-func": 2,
+        "key-spacing": [
+            2,
+            {
+                "beforeColon": false,
+                "afterColon": true
+            }
+        ],
+        "dot-notation": 2,
+        "semi": [
+            2,
+            "always"
+        ]
+    }
+}
