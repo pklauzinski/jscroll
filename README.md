@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/pklauzinski/jscroll.svg?branch=master)](https://travis-ci.org/pklauzinski/jscroll)
 [![npm version](https://img.shields.io/npm/v/jscroll.svg)](https://www.npmjs.com/package/jscroll)
 [![Bower version](https://img.shields.io/bower/v/jscroll.svg)](https://github.com/pklauzinski/jscroll)
+[![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/jscroll/badge?style=rounded)](https://www.jsdelivr.com/package/npm/jscroll)
 [![Join the chat at https://gitter.im/pklauzinski/jscroll](https://badges.gitter.im/pklauzinski/jscroll.svg)](https://gitter.im/pklauzinski/jscroll?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Official site at [jscroll.com](http://jscroll.com/).
