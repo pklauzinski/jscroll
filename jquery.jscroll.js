@@ -41,7 +41,7 @@
             _$window = $(window),
             _$body = $('body'),
             _$scroll = _isWindow ? _$window : $e,
-            _nextHref = $.trim(_$next.get(0).href + ' ' + _options.contentSelector),
+            _nextHref = $.trim(_$next.prop("href") + ' ' + _options.contentSelector),
 
             // Check if a loading image is defined and preload
             _preloadImage = function() {
@@ -167,7 +167,7 @@
                         }
                         var $next = $(this).find(_options.nextSelector).first();
                         data.waiting = false;
-                        data.nextHref = $next.get(0).href ? $.trim($next.get(0).href + ' ' + _options.contentSelector) : false;
+                        data.nextHref = $next.prop("href") ? $.trim($next.prop("href") + ' ' + _options.contentSelector) : false;
                         $('.jscroll-next-parent', $e).remove(); // Remove the previous next link now that we have a new one
                         _checkNextHref();
                         if (_options.callback) {
