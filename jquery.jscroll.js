@@ -94,7 +94,6 @@
                         iTotalHeight = Math.ceil(iTopHeight - innerTop + _$scroll.height() + iContainerTop);
 
                     if (!data.waiting && iTotalHeight + _options.padding >= $inner.outerHeight()) {
-                        //data.nextHref = $.trim(data.nextHref + ' ' + _options.contentSelector);
                         _debug('info', 'jScroll:', $inner.outerHeight() - iTotalHeight, 'from bottom. Loading next request...');
                         return _load();
                     }
