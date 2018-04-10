@@ -19,7 +19,7 @@ When set to `true`, triggers the loading of the next set of content automaticall
 - Type: `Boolean|Number`
 - Default: `false`
 
-Set to an integer great than 0 to turn off `autoTrigger` of paging after the specified number of pages. Requires `autoTrigger` to be `true`.
+Set to an integer greater than `0` to turn off `autoTrigger` of paging after the specified number of pages. Requires `autoTrigger` to be `true`.
 
 ## loadingHtml
 
@@ -33,7 +33,7 @@ The HTML to show at the bottom of the content while loading the next set.
 - Type: `Function|Boolean`
 - Default: `false`
 
-A JavaScript function to run after the loadingHtml has been drawn.
+A JavaScript function to run after the `loadingHtml` has been drawn.
 
 ## padding
 
@@ -47,7 +47,7 @@ The distance from the bottom of the scrollable content at which to trigger the l
 - Type: `String`
 - Default: `a:last`
 
-The selector to use for finding the link which contains the `href` pointing to the next set of content. If this selector is not found, or if it does not contain a href attribute, jScroll will self-destroy and unbind from the element upon which it was called.
+The selector to use for finding the link which contains the `href` pointing to the next set of content. If this selector is not found, or if it does not contain an `href` attribute, jScroll will self-destroy and unbind from the element upon which it was called.
 
 ## contentSelector
 

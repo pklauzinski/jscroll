@@ -41,7 +41,7 @@ $('.jscroll').jscroll({
 
 * `debug (false)` - When set to true, outputs useful information to the console display if the `console` object exists.
 * `autoTrigger (true)` - When set to true, triggers the loading of the next set of content automatically when the user scrolls to the bottom of the containing element. When set to false, the required next link will trigger the loading of the next set of content when clicked.
-* `autoTriggerUntil (false)` - Set to an integer great than 0 to turn off `autoTrigger` of paging after the specified number of pages. Requires `autoTrigger` to be `true`.
+* `autoTriggerUntil (false)` - Set to an integer greater than 0 to turn off `autoTrigger` of paging after the specified number of pages. Requires `autoTrigger` to be `true`.
 * `loadingHtml ('<small>Loading...</small>')` - The HTML to show at the bottom of the content while loading the next set.
 * `loadingFunction` (false) - A JavaScript function to run after the loadingHtml has been drawn.
 * `padding (0)` - The distance from the bottom of the scrollable content at which to trigger the loading of the next set of content. This only applies when autoTrigger is set to true.

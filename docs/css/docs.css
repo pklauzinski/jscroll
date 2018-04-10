@@ -5,9 +5,14 @@
     padding: 1.5em;
 }
 .cover img {
-    max-width: 200px;
+    max-width: 100px;
 }
-.cover p.warn {
+@media (min-height: 600px) {
+    .cover img {
+        max-width: 150px;
+    }
+}
+#carbon {
     max-width: 400px;
     margin: 1em auto;
     padding: 1em;
