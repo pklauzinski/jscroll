@@ -9,11 +9,13 @@
 }
 @media (min-height: 600px) {
     .cover img {
-        max-width: 150px;
+        max-width: 200px;
     }
 }
-#carbon {
+#carbon, .markdown-section p.warn:first-child {
     max-width: 400px;
+}
+#carbon {
     margin: 1em auto;
     padding: 1em;
     background: rgba(0, 0, 0, 0.05);
@@ -49,4 +51,15 @@
     font-size: 11px;
     line-height: 1;
     font-style: italic;
+}
+.sidebar h1 a {
+    display: block;
+}
+.sidebar h1 a img {
+    max-width:100px;
+    display: block;
+    margin: 0 auto;
+}
+.sidebar-nav {
+    border-top: 1px solid rgba(0,0,0,.07);
 }

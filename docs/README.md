@@ -4,6 +4,8 @@
 
 An example of infinite scrolling is your Facebook "News Feed" page. You may notice that when you scroll to the bottom of this page, new content will often load automatically, or you will be given a link to "Older Posts" which will load more content when clicked.
 
-## Facebook Page
+[Continue to Installation &rarr;](installation.md)
+
+## jScroll Facebook Page
 
 ?> [Follow jScroll on Facebook](https://www.facebook.com/jScroll.Infinite.Scrolling) for version updates and other announcements.
