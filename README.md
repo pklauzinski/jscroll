@@ -5,20 +5,18 @@
 [![Bower version](https://img.shields.io/bower/v/jscroll.svg)](https://github.com/pklauzinski/jscroll)
 [![Join the chat at https://gitter.im/pklauzinski/jscroll](https://badges.gitter.im/pklauzinski/jscroll.svg)](https://gitter.im/pklauzinski/jscroll?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Official site at [jscroll.com](http://jscroll.com/).
+Official site at [jscroll.com](https://jscroll.com/).
 
-* Copyright &copy; 2011-2017, [Philip Klauzinski](http://webtopian.com)
-* Current Version: 2.3.7
+* Copyright &copy; [Philip Klauzinski](https://webtopian.com)
 * Dual licensed under the MIT and GPL Version 2 licenses.
-* http://jscroll.com/#license
 * http://www.opensource.org/licenses/mit-license.php
 * http://www.gnu.org/licenses/gpl-2.0.html
 
-Requires jQuery v1.4.3+
+> Requires jQuery v1.8.0+
 
 ## Facebook Page
 
-Follow us on Facebook for commit updates: http://www.facebook.com/jScroll.Infinite.Scrolling
+Follow us on Facebook for commit updates: https://www.facebook.com/jScroll.Infinite.Scrolling
 
 ## Usage
 
@@ -52,11 +50,11 @@ $('.jscroll').jscroll({
 * `pagingSelector ('')` - Optionally define a selector for your paging controls so that they will be hidden, instead of just hiding the next page link.
 * `callback (false)` - Optionally define a callback function to be called after a set of content has been loaded.
 
-For more information on the `contentSelector` option and how it loads a response fragment, see the [jQuery documentation for the .load() method](http://api.jquery.com/load/).
+For more information on the `contentSelector` option and how it loads a response fragment, see the [jQuery documentation for the .load() method](https://api.jquery.com/load/).
 
 ## Contributing
 
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](http://gruntjs.com).
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://gruntjs.com).
 
 
 ## LICENSES:

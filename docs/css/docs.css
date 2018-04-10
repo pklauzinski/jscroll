@@ -1,0 +1,47 @@
+.content {
+    padding-top: 20px;
+}
+.markdown-section {
+    padding: 1.5em;
+}
+.cover img {
+    max-width: 200px;
+}
+.cover p.warn {
+    max-width: 400px;
+    margin: 1em auto;
+    padding: 1em;
+    background: rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+#carbonads {
+    position: relative;
+}
+.carbon-img {
+    margin-right: 1em;
+}
+.carbon-text {
+    max-width: 200px;
+    line-height: 1.2;
+}
+#carbonads a {
+    text-decoration: none;
+    font-weight: normal;
+}
+#carbonads img {
+    display: block;
+}
+.carbon-wrap {
+    display: flex;
+}
+.carbon-wrap a {
+    display: block;
+}
+.carbon-poweredby {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 11px;
+    line-height: 1;
+    font-style: italic;
+}
