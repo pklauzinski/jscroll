@@ -25,7 +25,7 @@ Alternatively, you may omit the version tag to load the latest released version.
 Include the script from [cdnjs](https://cdnjs.com/libraries/jscroll) with the version number specified, where `#.#.#` represents the [semver](https://semver.org).
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/#.#.#/dist/jquery.jscroll.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/#.#.#/jquery.jscroll.min.js"></script>
 ```
 
 ## Package Managers

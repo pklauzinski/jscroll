@@ -6,6 +6,10 @@ An example of infinite scrolling is your Facebook "News Feed" page. You may noti
 
 [Continue to Installation &rarr;](installation.md)
 
+## Twitter
+
+?> Follow me on Twitter [@webtopian](https://twitter.com/webtopian) for updates on jScroll and other projects I'm working on.
+
 ## jScroll Facebook Page
 
 ?> [Follow jScroll on Facebook](https://www.facebook.com/jScroll.Infinite.Scrolling) for version updates and other announcements.
