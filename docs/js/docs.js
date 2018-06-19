@@ -39,7 +39,7 @@
         if (carbon) {
             script.id = '_carbonads_js';
             script.async = true;
-            script.src = '//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=jscrollcom';
+            script.src = '//cdn.carbonads.com/carbon.js?serve=CKYILKJE&placement=jscrollcom';
             carbon.appendChild(script);
         }
     }
