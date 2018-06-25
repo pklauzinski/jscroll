@@ -8,8 +8,16 @@
  * @version 2.4.1
  * @requires jQuery v1.8.0+
  * @preserve
+ * @Supports AMD pattern
  */
-(function($) {
+(function($, factory){
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
+        return factory($);
+    } else {
+        window.jScroll = factory($);
+    }
+})(jQuery || null, function($) {
 
     'use strict';
 
@@ -223,4 +231,6 @@
         });
     };
 
-})(jQuery);
+    return jScroll;
+
+});
