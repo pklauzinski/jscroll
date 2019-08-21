@@ -71,3 +71,10 @@ Optionally define a selector for your paging controls so that they will be hidde
 - Default: `false`
 
 Optionally define a callback function to be called after a set of content has been loaded.
+
+## errorCallback
+
+- Type: `Function|Boolean`
+- Default: `false`
+
+Optionally define a callback function to be called after an AJAX failure occurs.  This can be useful to clear the loading HTML.
