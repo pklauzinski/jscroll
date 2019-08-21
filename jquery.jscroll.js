@@ -25,7 +25,8 @@
             nextSelector: 'a:last',
             contentSelector: '',
             pagingSelector: '',
-            callback: false
+            callback: false,
+            errorCallback: false
         }
     };
 
@@ -162,6 +163,9 @@
                     var nextHref = data.nextHref;
                     $inner.find('div.jscroll-added').last().load(nextHref, function(r, status) {
                         if (status === 'error') {
+                            if (_options.errorCallback) {
+                                _options.errorCallback();
+                            }
                             return _destroy();
                         }
                         var $next = $(this).find(_options.nextSelector).first();
