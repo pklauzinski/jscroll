@@ -19,6 +19,9 @@
             debug: false,
             autoTrigger: true,
             autoTriggerUntil: false,
+            autoTriggerRateLimit: 1000,
+            autoTriggerLastFiredAt: null,
+            autoTriggerPauseUntilLoaded: true, 
             loadingHtml: '<small>Loading...</small>',
             loadingFunction: false,
             padding: 0,
@@ -144,10 +147,36 @@
 
             // Load the next set of content, if available
             _load = function() {
-                var $inner = $e.find('div.jscroll-inner').first(),
-                    data = $e.data('jscroll');
 
-                data.waiting = true;
+                // Respect rate limits, if set...
+                if(_options.autoTriggerRateLimit !== false) {
+
+                    let now = new Date().valueOf();
+
+                    if( now < _options.autoTriggerLastFiredAt + _options.autoTriggerLastFiredAt )  {
+                        return; // Exit early and avoid preemptive overhead.
+                    } else {
+                        _options.autoTriggerLastFiredAt = now;
+                    }
+                }
+
+                var $inner = $e.find('div.jscroll-inner').first();
+
+                // Check that any images in currently enqueued elements have completed loading...
+                if(_options.autoTriggerPauseUntilLoaded === true ){
+                    let enquedImages = $inner.find('img');
+                    if( enquedImages.length ) {
+                        for (var i = enquedImages.length - 1; i >= 0; i--){
+                            if(!enquedImages[i].complete){
+                                return _debug('autoTriggerAborted', '-- Still Loading Images --');
+                            }   
+                        }
+                    }
+                }
+
+                var data   = $e.data('jscroll');
+                    data.waiting = true;
+
                 $inner.append('<div class="jscroll-added" />')
                     .children('.jscroll-added').last()
                     .html('<div class="jscroll-loading" id="jscroll-loading">' + _options.loadingHtml + '</div>')
@@ -157,6 +186,9 @@
                             _options.loadingFunction();
                         }
                     });
+
+
+                if($e.find('div.jscroll-inner').first())
 
                 return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                     var nextHref = data.nextHref;
