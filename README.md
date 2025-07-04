@@ -1,5 +1,7 @@
 # jScroll - jQuery Plugin for Infinite Scrolling / Auto-Paging
 
+teste
+
 [![Build Status](https://travis-ci.org/pklauzinski/jscroll.svg?branch=master)](https://travis-ci.org/pklauzinski/jscroll)
 [![npm version](https://img.shields.io/npm/v/jscroll.svg)](https://www.npmjs.com/package/jscroll)
 [![Bower version](https://img.shields.io/bower/v/jscroll.svg)](https://github.com/pklauzinski/jscroll)
